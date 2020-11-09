@@ -1,0 +1,91 @@
+1. Client
+	Client Name
+	City
+	Country
+
+Field Dependencies:
+	1.City and Country
+
+Triggers:
+	1.Avoid to create Duplicate Client with name
+		Class: DuplicateClient
+		Trigger: ClientTrigger
+		Test: ClientTriggerTest
+
+2. Projects 
+	Project Name 
+	Client(Look up)
+	Project Manager(Lookup)
+	Actual Expense
+	Start Date 
+	Deadline 
+	Status (Planning, Active, In-active, Completed, On-hold, Scrap) 
+	Description
+	Estimated Expense
+	Approval Status by Manager (Pending, Approved, Reject) 
+	Total Expected Hours
+	Expected Duration (: Deadline – Start Date + 1) 
+
+Formula fields:
+	1.Expected Duration (Deadline – Start Date + 1)
+
+Approval Process:
+	1.
+
+Workflow:
+	1.Project Completed
+		Immediate Workflow Actions : Email Alert  -	Project Has been Completed Successfully.
+
+Validation Rule:
+	1.End_date_before_deadline - Start date should not be greater than deadline
+	  NOT( ISNULL( Start_Date__c ) ) && NOT( ISNULL( Deadline__c ) ) && ( Start_Date__c > Deadline__c )
+	  
+Triggers:
+	1. Project should not be closed when Task is not completed.
+	2. If the project is completed, we should not be able to create Task. It should throw an error.
+
+3.Task
+	Task Number -TASK-{0000}
+	Task Name
+	Task Start Date
+	Task end Date
+	Status (Active, Completed, On-hold)
+	On hold Comment
+	Project (Lookup)  
+
+Trigger: 
+	1. If status is on hold then on hold comment should be given.
+	2. Task Status should not be closed when Issue status is not completed.
+		Class: TaskIssueStatusHnadler
+		Trigger: TaskTrigger
+		Test: ClientTriggerTest
+	
+
+4.Expenses
+	Name of that expense
+	Amount
+	Description
+	Project (Lookup) 
+
+5.Issues
+	Issues Number INC-{0000}
+	Severity (Critical, Moderate, Major, Minor, Cosmetic)
+	Date Spotted
+	Closed Date
+	Time Spent
+	Task (Lookup)
+	Status (New, Work in progress, completed, on hold)
+	On hold Comment
+	
+Trigger: 
+	1. If status is on hold then on hold comment should be given.
+	
+Formula:
+	1.Time Spent:
+	Closed_Date__c - Date_Spotted__c
+	
+     
+6. Contacts(Employees)
+	
+1. Schduled Apex
+	Send wishes mail on his/her birthday.
